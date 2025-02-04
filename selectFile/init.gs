@@ -1,7 +1,7 @@
 /**
  * @name          form input html select file in Google Drive
  * @fileoverview  Form HTML input type select using to get file in Google Drive
- * @author        Bitts
+ * @author        Bitts (mbitts.com)
  * @version       1.0
  * @changelog
  * - version 1.0 [2024-09-09]
