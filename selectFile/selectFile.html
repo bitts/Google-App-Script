@@ -158,11 +158,11 @@ if(typeof dados !== "undefined" && dados){
 
         } 
 
-        $.fn.processar = function(folderId, output){
+        $.fn.selectGFile = function(folderId, output){
           new selectFile( this, folderId, output);
         }        
 
-        $('#select_file').processar("Código da pasta do Google Drive que você deseja listar os arquivos para selecionar", "#id");
+        $('#select_file').selectGFile("Código da pasta do Google Drive que você deseja listar os arquivos para selecionar", "#id");
 
       });
     </script>
