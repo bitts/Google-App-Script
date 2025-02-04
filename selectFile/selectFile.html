@@ -104,7 +104,7 @@ if(typeof dados !== "undefined" && dados){
                 elemento.append($('<option>').html("📂 " + e[key]["keyname"]).val(key));
                 elemento.append($('<option>').html("🔙 ").val(e[key]["keyparent"]));
               } else {
-                elemento.append($('<option>').html("📁 " + e[key]["keyname"]).val(key));
+                elemento.append($('<option>').html("📂 " + e[key]["keyname"]).val(key));
               }
               for (var i=0; i < e[key]["files"].length; i++) {
                 if(e[key]["files"][i].id){
