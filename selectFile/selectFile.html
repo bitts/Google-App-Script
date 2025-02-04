@@ -101,7 +101,7 @@ if(typeof dados !== "undefined" && dados){
               var key = Object.keys(e)[0];
               if (!alldata[key]) alldata[key] = e[key];
               if (e[key]["keyparent"]) {
-                elemento.append($('<option>').html("📁 " + e[key]["keyname"]).val(key));
+                elemento.append($('<option>').html("📂 " + e[key]["keyname"]).val(key));
                 elemento.append($('<option>').html("🔙 ").val(e[key]["keyparent"]));
               } else {
                 elemento.append($('<option>').html("📁 " + e[key]["keyname"]).val(key));
