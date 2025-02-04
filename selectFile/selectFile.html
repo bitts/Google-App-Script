@@ -1,0 +1,176 @@
+<?  
+
+/**
+ * @name          form input html select file in Google Drive
+ * @fileoverview  Form HTML input type select using to get file in Google Drive
+ * @author        Bitts (mbitts.com)
+ * @version       1.0
+ * @changelog
+ * - version 1.0 [2024-09-09]
+ *   - Released initial version.
+ *   - create exemple
+ */
+
+if(typeof dados !== "undefined" && dados){
+  var obje = JSON.stringify(dados);
+}         
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Meta tags Obrigatórias -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style type="text/css">
+      body{ margin: 1em; }
+      #select_file, #select_doc {
+        text-align: left;
+        width: 95%;
+        font-size: 1em;
+        margin: 1em 0em;
+        height: 3em;
+      }
+
+      button{
+        text-align: center;
+      }
+
+      #id{
+        width: 90%;
+        text-align: center;
+        text-wrap: nowrap;
+      }
+      .copiar{
+        /*margin: 10% 0px 0px 33%;*/
+      }
+    </style>
+
+    <script type="text/javascript">
+      var dados = <?!= obje ?>;
+    </script>
+  </head>
+  <body>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+
+
+    <select id="select_file"></select>
+    <select id="select_doc"></select>
+
+    <p id="id"></p>
+
+    <script>
+      
+
+      $(function() {
+
+        class selectFile {
+
+          constructor (elemento, idFolder){
+            var alldata = {};
+            var aqui = this;
+            if(elemento && typeof elemento !== "undefined" && idFolder && idFolder !== ""){
+              elemento.append( $('<option>').val('loading').html("🔎 Carregando...") ).change(function() {
+                var id = elemento.val();
+                var nome = elemento.find('option:selected').attr('nome');
+                var disp = elemento.find('option:selected').text();
+                if(id){
+                  if (~disp.indexOf("Folder") || ~disp.indexOf("../") || ~disp.indexOf("📁") || ~disp.indexOf("🔙")) {
+                    elemento.find('option').remove();
+                    elemento.append( $('<option>').val('loading').html("🔎 Carregando...") );
+                    
+                    google.script.run.withSuccessHandler(function(e){
+                      aqui.importData(e, elemento, alldata);
+                    }).getFiles(id, idFolder);
+                    return;
+                  }else aqui.output({'id': id, 'nome': nome});
+                }
+              });
+
+              google.script.run.withSuccessHandler(function(e){
+                aqui.importData(e, elemento, alldata)
+              }).getFiles(idFolder, idFolder);
+            }
+          }
+
+          importData = function(e, elemento, alldata) {
+            if(typeof elemento !== "undefined"){
+              var key = Object.keys(e)[0];
+              if (!alldata[key]) alldata[key] = e[key];
+              if (e[key]["keyparent"]) {
+                elemento.append($('<option>').html("📁 " + e[key]["keyname"]).val(key));
+                elemento.append($('<option>').html("🔙 ").val(e[key]["keyparent"]));
+              } else {
+                elemento.append($('<option>').html("📁 " + e[key]["keyname"]).val(key));
+              }
+              for (var i=0; i < e[key]["files"].length; i++) {
+                if(e[key]["files"][i].id){
+                  var name = (e[key]["files"][i].mimeType == "folder" ? "📁 " : "📄 ")+ e[key]["files"][i].name;
+                  var nome = e[key]["files"][i].name.toString();
+                  var seleted = $('<option>')
+                      .html(name)
+                      .attr({'nome': nome, 'tipo': e[key]["files"][i].mimeType == "folder" ? "pasta" : "arquivo"})
+                      .val(e[key]["files"][i].id);
+                  elemento.append( seleted );
+                }
+              }
+              elemento.find("option[value='loading']").remove()
+            }
+          }
+
+          output = function(res){          
+            if(res && res.id){
+              const link = "https://drive.google.com/file/d/"+ res.id +"/view?usp=drive_link";
+              $('#id').html('').append(
+                $('<div />').css({'margin-top':'1em'}).append(
+                  ' Arquivo: ',
+                  '<br />',
+                  $('<a />', {'href': link, 'target':'_blank'}).text(res.nome),
+                  '<br />',
+
+                  $('<button />').addClass('copiar').text('🔗 Copiar').click(function(){
+                    const element = document.querySelector('#id');
+                    const storage = document.createElement('textarea');
+                    storage.value = link;
+                    element.appendChild(storage);
+                    // Copy the text in the fake `textarea` and remove the `textarea`
+                    storage.select();
+                    storage.setSelectionRange(0, 99999);
+                    document.execCommand('copy');
+                    element.removeChild(storage);
+                  }),
+                  '<br />',
+                  $('<a />').text('Ver Arquivo: '+ res.nome).click(function(e){
+                    //window.open('https://docs.google.com/viewer?url='+ link + '&embedded=true', '_blank', 'width=800, height=600');
+                    $('<iframe>', {
+                      'src': 'https://docs.google.com/viewer?url='+ link + '&embedded=true',
+                      'id':  'myFrame',
+                      'frameborder': 0,
+                      'scrolling': 'no'
+                    }).appendTo('.copiar');
+                  }) 
+                )
+              );
+            }
+          }
+
+        } 
+
+        $.fn.processar = function(folderId){
+          new selectFile( this, folderId);
+        }        
+
+        $('#select_file').processar("coloque aqui o código da pasta no Googe Drive");
+        $('#select_doc').processar("coloque aqui código da pasta no Google Drive");
+
+      });
+    </script>
+
+  </body>
+</html>
