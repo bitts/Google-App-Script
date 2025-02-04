@@ -3,7 +3,7 @@
 /**
  * @name          form input html select file in Google Drive
  * @fileoverview  Form HTML input type select using to get file in Google Drive
- * @author        Bitts (mbitts.com)
+ * @author        Bitts
  * @version       1.0
  * @changelog
  * - version 1.0 [2024-09-09]
@@ -56,13 +56,10 @@ if(typeof dados !== "undefined" && dados){
   </head>
   <body>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
 
-
     <select id="select_file"></select>
-    <select id="select_doc"></select>
-
+    
     <p id="id"></p>
 
     <script>
@@ -72,7 +69,7 @@ if(typeof dados !== "undefined" && dados){
 
         class selectFile {
 
-          constructor (elemento, idFolder){
+          constructor (elemento, idFolder, output){
             var alldata = {};
             var aqui = this;
             if(elemento && typeof elemento !== "undefined" && idFolder && idFolder !== ""){
@@ -89,7 +86,7 @@ if(typeof dados !== "undefined" && dados){
                       aqui.importData(e, elemento, alldata);
                     }).getFiles(id, idFolder);
                     return;
-                  }else aqui.output({'id': id, 'nome': nome});
+                  }else aqui.output({'id': id, 'nome': nome, 'output': output});
                 }
               });
 
@@ -125,15 +122,14 @@ if(typeof dados !== "undefined" && dados){
           }
 
           output = function(res){          
-            if(res && res.id){
-              const link = "https://drive.google.com/file/d/"+ res.id +"/view?usp=drive_link";
-              $('#id').html('').append(
+            if(res && res.id && res.output){
+              var link = "https://drive.google.com/file/d/"+ res.id +"/view?usp=drive_link";
+              $(res.output).html('').append(
                 $('<div />').css({'margin-top':'1em'}).append(
-                  ' Arquivo: ',
+                  '📄 Arquivo: ',
                   '<br />',
                   $('<a />', {'href': link, 'target':'_blank'}).text(res.nome),
                   '<br />',
-
                   $('<button />').addClass('copiar').text('🔗 Copiar').click(function(){
                     const element = document.querySelector('#id');
                     const storage = document.createElement('textarea');
@@ -147,7 +143,7 @@ if(typeof dados !== "undefined" && dados){
                   }),
                   '<br />',
                   $('<a />').text('Ver Arquivo: '+ res.nome).click(function(e){
-                    //window.open('https://docs.google.com/viewer?url='+ link + '&embedded=true', '_blank', 'width=800, height=600');
+                    //window.open(link, '_blank', 'width=800, height=600');
                     $('<iframe>', {
                       'src': 'https://docs.google.com/viewer?url='+ link + '&embedded=true',
                       'id':  'myFrame',
@@ -162,12 +158,11 @@ if(typeof dados !== "undefined" && dados){
 
         } 
 
-        $.fn.processar = function(folderId){
-          new selectFile( this, folderId);
+        $.fn.processar = function(folderId, output){
+          new selectFile( this, folderId, output);
         }        
 
-        $('#select_file').processar("coloque aqui o código da pasta no Googe Drive");
-        $('#select_doc').processar("coloque aqui código da pasta no Google Drive");
+        $('#select_file').processar("Código da pasta do Google Drive que você deseja listar os arquivos para selecionar", "#id");
 
       });
     </script>
