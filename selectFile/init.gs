@@ -49,11 +49,19 @@ function getFiles(e, rootFolderId) {
   var files = da.getFiles();
   while (folders.hasNext()) {
     var folder = folders.next();
-    data[e].files.push({name: folder.getName(), id: folder.getId(), mimeType: "folder"});
+    data[e].files.push({
+      name: folder.getName(), 
+      id: folder.getId(), 
+      mimeType: "folder"
+    });
   }
   while (files.hasNext()) {
     var file = files.next();
-    data[e].files.push({name: file.getName(), id: file.getId(), mimeType: file.getMimeType()});
+    data[e].files.push({
+      name: file.getName(), 
+      id: typeof file.getId() !== "undefined" ? file.getId() : file.getFileById(),
+      mimeType: file.getMimeType()
+    });
   }
   return data;
 }
