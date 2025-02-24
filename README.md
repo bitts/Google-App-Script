@@ -15,11 +15,14 @@ Script do Google App Script - Scripts criados por mim como exercício de lógica
   "onze mil, oitocentos e quatrorze reais e sessenta e três centavos"
   ```
 
-  OBS: Somente funcional para "Real" (para funcionamento correto para outras moedas editar pacote de linguagem
+  OBS: Somente funcional para "Real" (para funcionamento correto para outras moedas editar pacote de linguagem* (assim que possível realizarei ajustes para dolar e quem sabe bitcoin)
+  - pacote de linguagem não testado para outras que não português Brasil, sendo provável a necessidade de pequenos ajustes para funcionamento correto!
+    (contribua caso encontre erros)
   
   
-- Selecionar arquivos em um formulário Web
-  Criação para um formulário HTML de um campo do tipo "select" onde seja possível selecionar um arquivo do Google Drive. (Existe necessidade de utilização de jQuery para o seu funcionamento correto)
+- [selectFile.gs](https://github.com/bitts/Google-App-Script/blob/main/moedaPorExtenso.gs)
+Selecionar arquivos em um formulário Web
+Criação para um formulário HTML de um campo do tipo "select" onde seja possível selecionar um arquivo do Google Drive. (Existe necessidade de utilização de jQuery para o seu funcionamento correto)
   - [selectFile.html](https://github.com/bitts/Google-App-Script/blob/main/selectFile/selectFile.html) Modelo
   - [init.gs](https://github.com/bitts/Google-App-Script/blob/main/selectFile/init.gs) Algoritmo
   
