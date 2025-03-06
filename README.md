@@ -29,4 +29,10 @@ Criação para um formulário HTML de um campo do tipo "select" onde seja possí
    ![selectFile4](https://github.com/user-attachments/assets/43585e36-5de2-4417-aef0-a195538a4e85)
 
 
+- [Create FIFO-DataUpdate.gs](https://github.com/bitts/Google-App-Script/blob/main/FIFO-DataUpdate.gs)
+Atualiza a "última data" quando a quantidade disponível é zerada
+  ![Screenshot_20250306_194137](https://github.com/user-attachments/assets/249e6b3a-547a-4c8a-b55b-263900cbce8f)
+
+
+
 
