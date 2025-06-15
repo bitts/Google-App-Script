@@ -20,7 +20,7 @@ Script do Google App Script - Scripts criados por mim como exercício de lógica
     (contribua caso encontre erros)
   
   
-- [selectFile.gs](https://github.com/bitts/Google-App-Script/blob/main/selectFile/init.gs)
+- [selectFile.gs](https://github.com/bitts/Google-App-Script/blob/main/selectFile/README.md)
 Selecionar arquivos em um formulário Web
 Criação para um formulário HTML de um campo do tipo "select" onde seja possível selecionar um arquivo do Google Drive. (Existe necessidade de utilização de jQuery para o seu funcionamento correto)
   - [selectFile.html](https://github.com/bitts/Google-App-Script/blob/main/selectFile/selectFile.html) Modelo
